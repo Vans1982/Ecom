@@ -4,6 +4,7 @@ using Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Core.Interfaces;
+using Core.Specifications;
 
 namespace API.Controllers
 {
@@ -27,7 +28,9 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Product>>> GetProducts()
         {
-            var products = await this.productsRepo.ListAllAsync();
+            var spec = new ProductsWithTypesAndBrandsSpecification();
+            var products = await this.productsRepo.ListAsync(spec);
+
             return Ok(products);
         }
         [HttpGet("{id}")]
